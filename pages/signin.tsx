@@ -1,9 +1,21 @@
-import React from 'react'
-import { Pane, majorScale, Card, TextInputField, Button, Link, Text } from 'evergreen-ui'
-import NextLink from 'next/link'
+import React, { FC, useEffect } from 'react'
+import { Pane, majorScale, Text, Spinner } from 'evergreen-ui'
+import { providers, signIn, useSession } from 'next-auth/client'
+import { useRouter } from 'next/router'
 import Logo from '../components/logo'
 
-const Signin = () => {
+import SocialButton from '../components/socialButton'
+
+const Signin: FC<{ authTypes: { [key: string]: any } }> = ({ authTypes }) => {
+  const [session, loading] = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (session) {
+      router.push('/app')
+    }
+  }, [session, router])
+
   return (
     <Pane height="100vh" width="100vw" display="flex">
       <Pane
@@ -24,6 +36,11 @@ const Signin = () => {
               Sign in.
             </Text>
           </Pane>
+          {loading ? (
+            <Pane>
+              <Spinner />
+            </Pane>
+          ) : null}
         </Pane>
       </Pane>
       <Pane
@@ -35,23 +52,20 @@ const Signin = () => {
         justifyContent="center"
         paddingX={majorScale(7)}
       >
-        <Card elevation={1} padding={majorScale(2)} background="white" width="100%">
-          <form action="">
-            <TextInputField label="Email" placeholder="email" />
-            <TextInputField label="Password" placeholder="password" />
-            <Pane display="flex" justifyContent="space-between" alignItems="center">
-              <NextLink href="/signup" passHref>
-                <Link>Don't have an account?</Link>
-              </NextLink>
-              <Button appearance="minimal" height={48}>
-                Sign in
-              </Button>
-            </Pane>
-          </form>
-        </Card>
+        {Object.values(authTypes).map((provider) => (
+          <Pane key={provider.name} width="100%" textAlign="center">
+            <SocialButton type={provider.id} onClick={() => signIn(provider.id)} />
+          </Pane>
+        ))}
       </Pane>
     </Pane>
   )
+}
+
+export async function getStaticProps(context) {
+  return {
+    props: { authTypes: await providers(context) },
+  }
 }
 
 export default Signin

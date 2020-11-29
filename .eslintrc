@@ -26,6 +26,8 @@
     "radix": "off",
     "no-use-before-define": "off",
     "react/prefer-stateless-function": "off",
+    "no-unused-vars": "warn",
+    "unicorn/no-null": "off",
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
