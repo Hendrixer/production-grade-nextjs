@@ -1,7 +1,4 @@
-import mongoose from 'mongoose'
 import { connectToDB } from '../db/connect'
-
-mongoose.Promise = Promise
 
 declare global {
   namespace NodeJS {

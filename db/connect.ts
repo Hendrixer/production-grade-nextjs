@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { Db, MongoClient } from 'mongodb'
 
 global.mongo = global.mongo || {}
 
@@ -14,7 +14,7 @@ export const connectToDB = async () => {
     await global.mongo.client.connect()
   }
 
-  const db = global.mongo.client.db('known')
+  const db: Db = global.mongo.client.db('known')
 
   return { db, dbClient: global.mongo.client }
 }
