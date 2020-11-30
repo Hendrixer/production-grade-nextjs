@@ -5,6 +5,8 @@ export default async (req, res, next) => {
 
   if (token) {
     // Signed in
+    req.user = token
+    console.log(req.user)
     next()
   } else {
     // Not Signed in

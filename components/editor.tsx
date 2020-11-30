@@ -50,8 +50,10 @@ const EDITOR_JS_TOOLS = {
 
 const Editor: FC<{ docId: string; content: any }> = ({ content, docId }) => {
   const editor = useRef(null)
+  const container = useRef<HTMLElement>(null)
   const [saving, setSaving] = useState(false)
   const [doneSaving, setDoneSaving] = useState(false)
+
   const save = useThrottleCallback(async () => {
     if (editor.current) {
       const data = await editor.current.save()
@@ -83,11 +85,23 @@ const Editor: FC<{ docId: string; content: any }> = ({ content, docId }) => {
     })
 
     editor.current = editorJs
-  }, [save])
+
+    const containerEl = container.current
+
+    return () => {
+      if (editor.current) {
+        editor.current.destroy()
+      }
+
+      if (containerEl) {
+        containerEl.innerHTML = ''
+      }
+    }
+  }, [save, content])
 
   return (
     <Pane width="100%" position="relative">
-      <div id="editorjs" style={{ width: '100%' }} />
+      <div ref={container} id="editorjs" style={{ width: '100%' }} />
       {saving || doneSaving ? (
         <Pane
           position="fixed"

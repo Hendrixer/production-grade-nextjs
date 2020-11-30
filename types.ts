@@ -22,4 +22,5 @@ export interface UserSession {
 export interface Request extends NextApiRequest {
   db: Db
   dbClient: MongoClient
+  user: { email: string; id: string }
 }

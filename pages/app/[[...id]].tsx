@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { getSession } from 'next-auth/client'
 import { Pane, Dialog, majorScale } from 'evergreen-ui'
 import { useRouter } from 'next/router'
@@ -10,6 +10,7 @@ import { UserSession } from '../../types'
 import User from '../../components/user'
 import FolderPane from '../../components/folderPane'
 import DocPane from '../../components/docPane'
+import NewFolderDialog from '../../components/newFolderDialog'
 
 const App: FC<{ session?: any; folders?: any[]; activeFolder?: any; activeDoc?: any; activeDocs?: any[] }> = ({
   folders,
@@ -19,6 +20,21 @@ const App: FC<{ session?: any; folders?: any[]; activeFolder?: any; activeDoc?: 
   session,
 }) => {
   const router = useRouter()
+  const [newFolderIsShown, setIsShown] = useState(false)
+  const [allFolders, setFolders] = useState(folders || [])
+
+  const handleNewFolder = async (name: string) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/folder/`, {
+      method: 'POST',
+      body: JSON.stringify({ name }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    const { data } = await res.json()
+    setFolders((state) => [...state, data])
+  }
 
   const Page = () => {
     if (activeDoc) {
@@ -64,16 +80,17 @@ const App: FC<{ session?: any; folders?: any[]; activeFolder?: any; activeDoc?: 
         <Pane padding={majorScale(2)} display="flex" alignItems="center" justifyContent="space-between">
           <Logo />
 
-          <NewFolderButton />
+          <NewFolderButton onClick={() => setIsShown(true)} />
         </Pane>
         <Pane>
-          <FolderList folders={folders} />{' '}
+          <FolderList folders={allFolders} />{' '}
         </Pane>
       </Pane>
       <Pane marginLeft={300} width="calc(100vw - 300px)" height="100vh" overflowY="auto" position="relative">
         <User user={session.user} />
         <Page />
       </Pane>
+      <NewFolderDialog close={() => setIsShown(false)} isShown={newFolderIsShown} onNewFolder={handleNewFolder} />
     </Pane>
   )
 }
