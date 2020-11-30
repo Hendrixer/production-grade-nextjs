@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Pane, majorScale, Text, Spinner } from 'evergreen-ui'
 import { providers, signIn, useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
@@ -6,7 +6,7 @@ import Logo from '../components/logo'
 
 import SocialButton from '../components/socialButton'
 
-const Signin: FC<{ authTypes: { [key: string]: any } }> = ({ authTypes }) => {
+const Signin = ({ authTypes }) => {
   const [session, loading] = useSession()
   const router = useRouter()
 
