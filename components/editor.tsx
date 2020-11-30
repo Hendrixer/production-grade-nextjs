@@ -15,19 +15,17 @@ import Delimiter from '@editorjs/delimiter'
 import InlineCode from '@editorjs/inline-code'
 import SimpleImage from '@editorjs/simple-image'
 import EditorJS from '@editorjs/editorjs'
-import { Icon, Pane, Text, TickIcon, SocialMediaIcon, Spinner, majorScale } from 'evergreen-ui'
+import { Icon, Pane, Text, TickIcon, Spinner, majorScale } from 'evergreen-ui'
 import { useThrottleCallback } from '@react-hook/throttle'
 
 const saveEditor = async (docId: string, data: any) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/doc/${docId}`, {
+  await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/doc/${docId}`, {
     method: 'PUT',
     body: JSON.stringify(data),
     headers: {
       'Content-Type': 'application/json',
     },
   })
-
-  const result = await res.json()
 }
 
 const EDITOR_JS_TOOLS = {
@@ -90,7 +88,11 @@ const Editor: FC<{ docId: string; content: any }> = ({ content, docId }) => {
 
     return () => {
       if (editor.current) {
-        editor.current.destroy()
+        try {
+          editor.current.destroy()
+        } catch {
+          console.warn('error destroying editor')
+        }
       }
 
       if (containerEl) {

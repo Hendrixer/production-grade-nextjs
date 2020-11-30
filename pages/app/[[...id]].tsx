@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react'
-import { getSession } from 'next-auth/client'
+import { getSession, useSession } from 'next-auth/client'
 import { Pane, Dialog, majorScale } from 'evergreen-ui'
 import { useRouter } from 'next/router'
 import Logo from '../../components/logo'
@@ -12,16 +12,19 @@ import FolderPane from '../../components/folderPane'
 import DocPane from '../../components/docPane'
 import NewFolderDialog from '../../components/newFolderDialog'
 
-const App: FC<{ session?: any; folders?: any[]; activeFolder?: any; activeDoc?: any; activeDocs?: any[] }> = ({
+const App: FC<{ folders?: any[]; activeFolder?: any; activeDoc?: any; activeDocs?: any[] }> = ({
   folders,
   activeDoc,
   activeFolder,
   activeDocs,
-  session,
 }) => {
   const router = useRouter()
+  const [session, loading] = useSession()
+
   const [newFolderIsShown, setIsShown] = useState(false)
   const [allFolders, setFolders] = useState(folders || [])
+
+  if (loading) return null
 
   const handleNewFolder = async (name: string) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/folder/`, {
@@ -48,7 +51,7 @@ const App: FC<{ session?: any; folders?: any[]; activeFolder?: any; activeDoc?: 
     return null
   }
 
-  if (!session) {
+  if (!session && !loading) {
     return (
       <Dialog
         isShown
@@ -67,16 +70,7 @@ const App: FC<{ session?: any; folders?: any[]; activeFolder?: any; activeDoc?: 
 
   return (
     <Pane position="relative">
-      <Pane
-        width={300}
-        position="absolute"
-        top={0}
-        left={0}
-        background="tint2"
-        height="100vh"
-        borderRight
-        borderRightColor="white"
-      >
+      <Pane width={300} position="absolute" top={0} left={0} background="tint2" height="100vh" borderRight>
         <Pane padding={majorScale(2)} display="flex" alignItems="center" justifyContent="space-between">
           <Logo />
 

@@ -10,6 +10,7 @@
     "lint:fix": "zoe --fix"
   },
   "dependencies": {
+    "@bomdi/codebox": "^1.0.10",
     "@editorjs/checklist": "^1.3.0",
     "@editorjs/code": "^2.6.0",
     "@editorjs/delimiter": "^1.2.0",

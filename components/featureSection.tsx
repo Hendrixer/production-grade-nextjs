@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
-import { Pane, Heading, Paragraph, Image, majorScale } from 'evergreen-ui'
+import { Pane, Heading, Paragraph, majorScale } from 'evergreen-ui'
+import Image from 'next/image'
 import Container from './container'
 
 const FeatureSection: FC<{ invert?: boolean; title: string; body: string; image: string }> = ({
@@ -15,8 +16,8 @@ const FeatureSection: FC<{ invert?: boolean; title: string; body: string; image:
     </Pane>
   )
   const Right = () => (
-    <Pane textAlign={invert ? 'left' : 'right'}>
-      <Image src={image} />
+    <Pane textAlign={invert ? 'left' : 'right'} border elevation={1}>
+      <Image src={image} width={1200} height={600} layout="responsive" quality={100} loading="lazy" />
     </Pane>
   )
 
@@ -29,11 +30,13 @@ const FeatureSection: FC<{ invert?: boolean; title: string; body: string; image:
       borderTop
       display="flex"
       alignItems="center"
+      position="relative"
+      overflow="hidden"
     >
       <Container height="100%">
-        <Pane display="flex" alignItems="flex-start">
+        <Pane display="flex" alignItems="flex-start" justifyContent="space-between">
           {children.map((Child, i) => (
-            <Pane key={i} width="50%">
+            <Pane key={i} width="50%" paddingX={majorScale(3)}>
               <Child />
             </Pane>
           ))}

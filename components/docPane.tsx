@@ -8,6 +8,7 @@ const Editor = dynamic(() => import('./editor'), { ssr: false })
 
 const DocPane: FC<{ folder: any; doc: any }> = ({ folder, doc }) => {
   const { bg, image } = getRandomGradientCss()
+
   return (
     <Pane>
       <Pane width="100%" height="200px" backgroundColor={bg} backgroundImage={image} />

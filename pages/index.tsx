@@ -18,18 +18,18 @@ export default function Home() {
         <FeatureSection
           title="Record everything"
           body="blah blah blah blah blah blah blah blah blah blah blah blah"
-          image="https://via.placeholder.com/300"
+          image="/docs.png"
           invert
         />
         <FeatureSection
           title="Record everything"
           body="blah blah blah blah blah blah blah blah blah blah blah blah"
-          image="https://via.placeholder.com/300"
+          image="/editor.png"
         />
         <FeatureSection
           title="Record everything"
           body="blah blah blah blah blah blah blah blah blah blah blah blah"
-          image="https://via.placeholder.com/300"
+          image="/editor.png"
           invert
         />
       </main>
