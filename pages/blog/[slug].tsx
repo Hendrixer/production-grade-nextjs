@@ -70,8 +70,6 @@ export async function getStaticProps({ params, preview }) {
     throw new Error('no post')
   }
 
-  console.log(postFile)
-
   const { content, data } = matter(postFile)
   const mdxSource = await renderToString(content, { scope: data })
 

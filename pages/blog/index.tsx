@@ -37,7 +37,6 @@ export async function getStaticProps(ctx) {
     return fs.readFileSync(filePath, 'utf8')
   })
 
-  console.log(cmsPosts)
   const posts = orderby(
     [...cmsPosts, ...filePosts].map((content) => {
       const { data } = matter(content)
