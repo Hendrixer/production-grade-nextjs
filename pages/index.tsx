@@ -50,7 +50,6 @@ export function getStaticProps(ctx) {
   return {
     props: {
       content: ctx.preview ? home.draft : home.published,
-      preview: ctx.preview,
     },
   }
 }
