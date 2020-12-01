@@ -30,14 +30,3 @@ export const connectToDB = async () => {
 
   return { db, dbClient: global.mongo.client }
 }
-
-// export const getDBUrl = (newParams: { [key: string]: any } = {}) => {
-//   const dbUrl = process.env.DATABASE_URL
-//   const [urlWithNoParams, paramsFromString = ''] = dbUrl.split('?')
-//   const additionalParams =
-//     Object.keys(newParams)
-//       .map((p: string) => `${p}=${newParams[p]}`)
-//       .join('&') || ''
-
-//   return `${urlWithNoParams}?${paramsFromString}&${additionalParams}`
-// }
