@@ -9,6 +9,7 @@ import SocialButton from '../components/socialButton'
 const Signin = () => {
   const [session, loading] = useSession()
   const router = useRouter()
+
   useEffect(() => {
     if (session) {
       router.push('/app')
