@@ -4,7 +4,6 @@ import Container from '../components/container'
 import Hero from '../components/hero'
 import HomeNav from '../components/homeNav'
 import FeatureSection from '../components/featureSection'
-import { home } from '../content'
 
 const Home: FC<{ content: { hero: any; features: any[] } }> = ({ content }) => {
   return (
@@ -35,9 +34,15 @@ const Home: FC<{ content: { hero: any; features: any[] } }> = ({ content }) => {
   )
 }
 
-export default Home
+/**
+ * Should really get this content from our CMS
+ */
 
-export function getStaticProps(ctx) {
-  const content = ctx.preview ? home.draft : home.published
-  return { props: { content } }
+Home.defaultProps = {
+  content: {
+    features: [{ title: 'default feature', body: 'default body' }],
+    hero: { title: 'default title', body: 'default body' },
+  },
 }
+
+export default Home
