@@ -7,6 +7,7 @@ import orderby from 'lodash.orderby'
 import Container from '../../components/container'
 import HomeNav from '../../components/homeNav'
 import PostPreview from '../../components/postPreview'
+import { posts as postsFromCMS } from '../../content'
 
 export default function Blog({ posts }) {
   return (
@@ -27,16 +28,20 @@ export default function Blog({ posts }) {
   )
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(ctx) {
   const postsDirectory = path.join(process.cwd(), 'posts')
   const filenames = fs.readdirSync(postsDirectory)
+  const cmsPosts = ctx.preview ? postsFromCMS.draft : postsFromCMS.published
+  const filePosts = filenames.map((filename) => {
+    const filePath = path.join(postsDirectory, filename)
+    return fs.readFileSync(filePath, 'utf8')
+  })
 
+  console.log(cmsPosts)
   const posts = orderby(
-    filenames.map((filename) => {
-      const filePath = path.join(postsDirectory, filename)
-      const fileContents = fs.readFileSync(filePath, 'utf8')
-      const { data } = matter(fileContents)
-      return { ...data, slug: filename.replace('.mdx', '') }
+    [...cmsPosts, ...filePosts].map((content) => {
+      const { data } = matter(content)
+      return data
     }),
     ['publishedOn'],
     ['desc'],

@@ -20,7 +20,7 @@ export default (req, res) =>
       // ...add more providers here
     ],
 
-    database: `${process.env.DATABASE_URL}?synchronize=true`,
+    database: process.env.DATABASE_URL,
     pages: {
       signIn: '/signin',
     },

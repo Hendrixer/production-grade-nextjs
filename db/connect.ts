@@ -21,10 +21,23 @@ export const connectToDB = async () => {
       connectTimeoutMS: 10000,
     })
 
+    console.log('connecting to DB')
     await global.mongo.client.connect()
+    console.log('connected to DB')
   }
 
   const db: Db = global.mongo.client.db('known')
 
   return { db, dbClient: global.mongo.client }
 }
+
+// export const getDBUrl = (newParams: { [key: string]: any } = {}) => {
+//   const dbUrl = process.env.DATABASE_URL
+//   const [urlWithNoParams, paramsFromString = ''] = dbUrl.split('?')
+//   const additionalParams =
+//     Object.keys(newParams)
+//       .map((p: string) => `${p}=${newParams[p]}`)
+//       .join('&') || ''
+
+//   return `${urlWithNoParams}?${paramsFromString}&${additionalParams}`
+// }

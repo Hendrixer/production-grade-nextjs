@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
 import { Pane, majorScale, Text, Spinner } from 'evergreen-ui'
-import { providers, signIn, useSession } from 'next-auth/client'
+import { signIn, useSession } from 'next-auth/client'
 import { useRouter } from 'next/router'
 import Logo from '../components/logo'
 
 import SocialButton from '../components/socialButton'
 
-const Signin = ({ authTypes }) => {
+const Signin = () => {
   const [session, loading] = useSession()
   const router = useRouter()
-
   useEffect(() => {
     if (session) {
       router.push('/app')
@@ -52,20 +51,12 @@ const Signin = ({ authTypes }) => {
         justifyContent="center"
         paddingX={majorScale(7)}
       >
-        {Object.values(authTypes).map((provider) => (
-          <Pane key={provider.name} width="100%" textAlign="center">
-            <SocialButton type={provider.id} onClick={() => signIn(provider.id)} />
-          </Pane>
-        ))}
+        <Pane width="100%" textAlign="center">
+          <SocialButton type="github" onClick={() => signIn('github')} />
+        </Pane>
       </Pane>
     </Pane>
   )
-}
-
-export async function getStaticProps(context) {
-  return {
-    props: { authTypes: await providers(context) },
-  }
 }
 
 export default Signin
