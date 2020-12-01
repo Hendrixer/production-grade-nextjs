@@ -11,7 +11,7 @@ export const getDocsByFolder = async (db: Db, folderId: string) => {
 
 export const createDoc = async (db: Db, doc: { createdBy: string; folder: string; name: string; content?: any }) => {
   const newDoc = await db
-    .collection('folders')
+    .collection('docs')
     .insertOne({
       _id: nanoid(),
       ...doc,
