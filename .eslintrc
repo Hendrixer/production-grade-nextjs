@@ -1,7 +1,9 @@
 {
   "parser": "@typescript-eslint/parser", 
-  "plugins": ["import", "jest"],
-  "extends": "zoe",
+  "plugins": [
+    "import",
+    "jest"
+  ],
   "settings": {
     "import/resolver": {
       "node": {
