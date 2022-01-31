@@ -20,7 +20,7 @@ const User: FC<{ user: UserSession }> = ({ user }) => {
             </Pane>
             <Pane background="white">
               <Menu>
-                <Menu.Item icon={LogOutIcon} intent="danger" onSelect={signOut}>
+                <Menu.Item icon={LogOutIcon} intent="danger" onSelect={() => signOut()}>
                   Sign out
                 </Menu.Item>
               </Menu>

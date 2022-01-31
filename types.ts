@@ -13,10 +13,10 @@ export interface Post {
 }
 
 export interface UserSession {
-  id: string
-  image: string
-  email: string
-  name: string
+  id?: string
+  image?: string
+  email?: string
+  name?: string
 }
 
 export interface Request extends NextApiRequest {
