@@ -19,6 +19,7 @@ const App: FC<{ folders?: any[]; activeFolder?: any; activeDoc?: any; activeDocs
   activeDocs,
 }) => {
   const router = useRouter()
+  // revisit
   const [session, loading] = useSession()
 
   const [newFolderIsShown, setIsShown] = useState(false)
@@ -102,12 +103,12 @@ export async function getServerSideProps(context) {
   props.folders = folders
 
   if (context.params.id) {
-    const activeFolder = folders.find((f) => f._id === context.params.id[0])
-    const activeDocs = await doc.getDocsByFolder(db, activeFolder._id)
+    const activeFolder = folders.find((f) => f._id === context.params.id[0]) // at runtime, id = [XXrtMA5ZFydW]
+    const activeDocs = await doc.getDocsByFolder(db, activeFolder._id) // [...]
     props.activeFolder = activeFolder
     props.activeDocs = activeDocs
 
-    const activeDocId = context.params.id[1]
+    const activeDocId = context.params.id[1] // undefined
 
     if (activeDocId) {
       props.activeDoc = await doc.getOneDoc(db, activeDocId)
